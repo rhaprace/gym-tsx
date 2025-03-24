@@ -1,8 +1,10 @@
 import { BenefitType, SelectedPage } from "@/shared/types"
-import { HomeModernIcon, UserGroupIcon, AcademicCapIcon } from "@heroicons/react/24/solid"
 import { motion} from "framer-motion";
 import HText from "@/shared/HText";
 import Benefit from "./Benefit";
+import Nutrition from "@/assets/nutrition.jpg"
+import Calories from "@/assets/calories.jpg"
+import Exercise from "@/assets/exercise.jpg"
 import HomePageGraphic from "@/assets/HomePageGraphic.png"
 import ActionButton from "@/shared/ActionButton";
 motion
@@ -13,22 +15,22 @@ type Props = {
 
 const Benefits = ({setSelectedPage}: Props) => {
     const benefits: Array<BenefitType> = [
-        {
-            icon: <HomeModernIcon className="h-6 w-6"/>,
-            title: "Nutrition",
-            description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem minus dolores saepe maiores magnam at debitis sit fuga quos rerum assumenda numquam consectetur alias architecto, veritatis nemo mollitia voluptate consequatur."
-        },
-        {
-            icon: <UserGroupIcon className="h-6 w-6"/>,
-            title: "Calories",
-            description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem minus dolores saepe maiores magnam at debitis sit fuga quos rerum assumenda numquam consectetur alias architecto, veritatis nemo mollitia voluptate consequatur."
-        },
-        {
-            icon: <AcademicCapIcon className="h-6 w-6"/>,
-            title: "Exercise",
-            description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem minus dolores saepe maiores magnam at debitis sit fuga quos rerum assumenda numquam consectetur alias architecto, veritatis nemo mollitia voluptate consequatur."
-        }
-    ]
+    {
+        image: Nutrition,
+        title: "Nutrition",
+        description: "Our AI-driven meal plans are personalized to meet your weight loss or weight gain goals. Get tailored nutrition advice based on your activity level, preferences, and dietary needs, ensuring a healthy balance for optimal progress."
+    },
+    {
+        image: Calories,
+        title: "Calories",
+        description: "Track your calorie intake and expenditure with our easy-to-use tracking system. Our AI adjusts your meal and exercise plans to maintain the right caloric balance, ensuring you stay on target for your fitness goals."
+    },
+    {
+        image: Exercise,
+        title: "Exercise",
+        description: "AI-powered exercise routines tailored to your goals—whether it's weight loss or muscle gain. From cardio to strength training, our personalized workouts adjust as you progress, keeping your body challenged and motivated."
+    }
+]
 
     const container = {
         hidden: {},
@@ -53,9 +55,10 @@ const Benefits = ({setSelectedPage}: Props) => {
                 visible: {opacity: 1, x: 0},
             }}
             className="md:my-5 md:w-3/5">
-                <HText>MORE THAT JUST A GYM.</HText>
-                <p className="my-5 text-sm">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem quae nulla velit totam. Exercitationem consectetur at debitis suscipit amet! Perspiciatis ex rerum laboriosam, veritatis explicabo deleniti incidunt quas dolorum. Omnis.
+                <HText>MORE THAN JUST A GYM.</HText>
+                <p className="my-5 text-md">
+                    Our AI analyzes your goals, current fitness level, and preferences to generate a workout plan just for you!
+
                 </p>
             </motion.div>
 
@@ -69,7 +72,7 @@ const Benefits = ({setSelectedPage}: Props) => {
                 {benefits.map((benefit: BenefitType) => (
                     <Benefit
                     key={benefit.title}
-                    icon={benefit.icon}
+                    image={benefit.image}
                     title={benefit.title}
                     description={benefit.description}
                     setSelectedPage={setSelectedPage}
@@ -86,7 +89,7 @@ const Benefits = ({setSelectedPage}: Props) => {
 
                 <div>
                     <div className="relative">
-                        <div className="before:absolute before:-top-20 before:-left-20 before:z-[1] before:content-abstractwaves">
+                        <div>
                             <motion.div
                              initial="hidden"
                              whileInView="visible"
@@ -114,11 +117,11 @@ const Benefits = ({setSelectedPage}: Props) => {
                          visible: {opacity: 1, x: 0},
                      }}
                     >
-                        <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore animi quisquam totam cupiditate, dignissimos illo saepe facere perspiciatis expedita doloribus tempore fugit eos necessitatibus amet eveniet quidem ex neque deserunt!</p>
-                        <p className="mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum suscipit totam eos voluptatum reprehenderit similique consequatur, quaerat ipsam, nisi dignissimos exercitationem commodi, perferendis id. Dolor facere nam quo vero error!</p>
+                       <p className="my-5">At our core, we are dedicated to helping you achieve your fitness goals and live a healthier, more active life. Whether you're just getting started or are a seasoned athlete, our community of millions is here to support and inspire you every step of the way. With a range of resources, expert advice, and motivation, we ensure that fitness becomes a sustainable part of your lifestyle.</p>
+                       <p className="mb-5">Join us today and be part of a growing movement toward better health and well-being. Together, we can push boundaries, break personal records, and celebrate every milestone on the journey to becoming the best version of yourself!</p>
                     </motion.div>
                     <div className="relative mt-16">
-                        <div className="before:absolute before:-bottom-20 before:right-40 before:z-[1] before:content-sparkles">
+                        <div>
                             <ActionButton setSelectedPage={setSelectedPage}>
                                 Join Now
                             </ActionButton>

@@ -6,7 +6,6 @@ import ContactUs from "@/components/contactus"
 import Footer from "@/components/footer";
 import { useState, useEffect } from "react";
 import { SelectedPage } from "@/shared/types";
-
 function App() {
   const [isTopOfPage, setIsTopOfPage] = useState<boolean>(true);
   const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Home);

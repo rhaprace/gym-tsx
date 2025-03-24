@@ -12,14 +12,15 @@ const ContactUs = ({ setSelectedPage }: Props) => {
     const inputStyles = `mb-5 w-full rounded-lg bg-secondary-400 px-5 py-3 placeholder-white text-white`
     const {
         register,
-        handleSubmit,
         trigger,
         formState: { errors }
     } = useForm();
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (e) => {
         const isValid = await trigger();
-        if (!isValid) return;
+        if (!isValid){
+            e.preventDefault();
+        }
     }
 
     return (
@@ -42,7 +43,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
                         <span className="text-red-700">Join Now</span> TO GET IN SHAPE
                     </HText>
                     <p className="my-5">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. At ad optio enim reprehenderit autem incidunt. Quibusdam minima aperiam voluptate porro accusantium adipisci magni consectetur reprehenderit? Et molestiae vero quasi minus.
+                       We’d love to hear from you! Whether you have a question, need support, or simply want to share your feedback, our team is here to help. You can reach us through any of the following methods
                     </p>
                 </motion.div>
 
@@ -60,7 +61,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
                     >
                         <form
                             target="_blank"
-                            onSubmit={handleSubmit(onSubmit)}
+                            onSubmit={onSubmit}
                             action="https://formsubmit.co/e8fd48d6f4ba9f5b7a178bc3fdd44948"
                             method="POST"
                         >
@@ -70,6 +71,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
                                     required: true,
                                     maxLength: 100,
                                 })}
+                                required
                             />
                             {errors.name && (
                                 <p className="mt-1 text-red-600">
@@ -84,6 +86,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
                                     required: true,
                                     pattern: /^[A-Z0-9._%+-]+@[A-Z0-9,-]+\.[A-Z]{2,}$/i,
                                 })}
+                                required
                             />
                             {errors.email && (
                                 <p className="mt-1 text-red-600">
@@ -100,6 +103,7 @@ const ContactUs = ({ setSelectedPage }: Props) => {
                                     required: true,
                                     maxLength: 2000,
                                 })}
+                                required
                             />
                             {errors.message && (
                                 <p className="mt-1 text-red-600">

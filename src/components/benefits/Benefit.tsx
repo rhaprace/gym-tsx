@@ -1,10 +1,10 @@
-import { JSX } from "react";
+
 import { SelectedPage } from "@/shared/types";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { motion } from "framer-motion";
 
 type Props = {
-  icon: JSX.Element;
+  image: string;
   title: string;
   description: string;
   setSelectedPage: (value: SelectedPage) => void;
@@ -15,7 +15,7 @@ const childVariant = {
   visible: { opacity: 1, scale: 1 },
 };
 
-const Benefit = ({ icon, description, title, setSelectedPage }: Props) => {
+const Benefit = ({ image, description, title, setSelectedPage }: Props) => {
   return (
     <motion.div
       variants={childVariant}
@@ -24,7 +24,7 @@ const Benefit = ({ icon, description, title, setSelectedPage }: Props) => {
 
       <div className="mb-4 flex justify-center group-hover:opacity-0 transition-opacity duration-300">
         <div className="rounded-full border-gray-100 bg-secondary-400 p-4">
-          {icon}
+          <img alt={`${image}`} src={image} className="h-24 w-24 rounded-full"/>
         </div>
       </div>
 

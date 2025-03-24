@@ -1,11 +1,12 @@
 import { SelectedPage } from "@/shared/types"
 import useMediaQueries from "@/hooks/useMediaQueries"
 import ActionButton from "@/shared/ActionButton"
-import HomePageText from "@/assets/HomePageText.png";
+import Fitness from "@/assets/Fitness.png";
 import HomePageGraphic from "@/assets/HomePageGraphic.png"
-import SponsorRedBull from "@/assets/SponsorRedBull.png";
-import SponsorFortune from "@/assets/SponsorFortune.png";
-import SponsorForbes from "@/assets/SponsorForbes.png";
+import Sponsor3 from '@/assets/sponsor3.png'
+import Sponsor2 from "@/assets/sponsor2.png"
+import Sponsor1 from "@/assets/test.png"
+import Sponsor4 from "@/assets/sponsor4.png"
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import {motion} from "framer-motion";
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 const Home = ({setSelectedPage}: Props) => {
     const isAboveMediumScreens = useMediaQueries("(min-width:1060px)")
   return (
-    <section id="home" className="gap-16 bg-gray-20 py-10 md:h-full md: pb-0">
+    <section id="home" className="gap-16 bg-[#D9D9D9] py-10 md:h-full md:pb-0">
         <motion.div className="md:flex mx-auto w-5/6 items-center justify-center md:h-5/6"
         onViewportEnter={() => setSelectedPage(SelectedPage.Home)}
         >
@@ -31,12 +32,10 @@ const Home = ({setSelectedPage}: Props) => {
                 }}
                 >
                     <div className="relative">
-                        <div className="before:absolute before:-top-20 before:-left-20 before:z-[-1] md:before:content-evolvetext">
-                            <img alt="home-page-text" src={HomePageText}/>
-                        </div>
+                        <img alt="home-page-text" src={Fitness} className="h-full w-5/6"/>
                     </div>
-                    <p className="mt-8 text-sm">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam maiores est cupiditate animi impedit, ea ab, mollitia pariatur suscipit, saepe aliquid officiis cumque. Culpa corrupti, atque vitae repellendus consequuntur ex.
+                    <p className="mt-8 text-md font-semibold">
+                        Atletech is an innovative AI-powered fitness platform that tailors workout plans based on your body data and performance. By leveraging advanced algorithms and machine learning, we help you achieve optimal fitness goals more efficiently.
                     </p>
                 </motion.div>
                 <motion.div className="mt-8 flex items-center gap-8"
@@ -50,7 +49,7 @@ const Home = ({setSelectedPage}: Props) => {
                 }}
                 >
                     <ActionButton setSelectedPage={setSelectedPage}>
-                        Let's get Started
+                        Get Started
                     </ActionButton>
                     <AnchorLink className="text-sm font-bold text-primary-400 underline hover:text-primary-300" onClick={() => setSelectedPage(SelectedPage.ContactUs)} href={`#${SelectedPage.ContactUs}`}>
                         <p>Learn More</p>
@@ -67,10 +66,11 @@ const Home = ({setSelectedPage}: Props) => {
         {isAboveMediumScreens &&(
             <div className="h-[150px] w-full bg-secondary-400 py-10">
                 <div className="mx-auto w-5/6">
-                    <div className="flex w-3/5 items-center justify-between gap-8">
-                        <img alt="redbull-sponsor" src={SponsorRedBull}/>
-                        <img alt="forbes-sponsor" src={SponsorForbes}/>
-                        <img alt="fortune-sponsor" src={SponsorFortune}/>
+                    <div className="flex w-3/5 items-center justify-between ">
+                        <img alt="sponsor" src={Sponsor1} className="h-20 w-20"/>
+                        <img alt="sponsor" src={Sponsor2} className="h-20 w-20"/>
+                        <img alt="sponsor" src={Sponsor3} className="h-20 w-20"/>
+                        <img alt="sponsor" src={Sponsor4} className="h-20 w-20"/>
                     </div>
                 </div>
             </div>
