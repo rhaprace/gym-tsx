@@ -18,7 +18,7 @@ const sigInWithGoogle = async () => {
     signInWithPopup(auth, new GoogleAuthProvider())
     .then(response => {
         console.log(response.user.uid);
-        navigate('/')
+        navigate('/dashboard')
     })
     .catch(error => {
         console.log(error)
@@ -33,6 +33,7 @@ const sigInWithGoogle = async () => {
         signInWithEmailAndPassword(auth, email, password)
               .then(response => {
                 console.log(response.user.uid);
+                navigate('/dashboard');
               })
               .catch(error => {
                 console.log(error);
@@ -42,8 +43,8 @@ const sigInWithGoogle = async () => {
     }
 
   return (
-    <div id="signup" className="fixed inset-0 bg-gray-20 bg-opacity-50 backdrop-blur-lg flex justify-center items-center z-50">
-      <div className="relative w-full max-w-md bg-[#1a1a1a] p-8 rounded-md">
+    <div id="signup" className="fixed inset-0 bg-secondary-400 backdrop-blur-lg flex justify-center items-center z-50">
+      <div className="relative w-full max-w-md p-8 rounded-md bg-transparent bg-opacity-20 backdrop-blur-lg drop-shadow-lg border border-white border-opacity-30">
       <button onClick={() => navigate('/')}
             className="flex justify-end text-white pb-4"
             >
@@ -56,14 +57,14 @@ const sigInWithGoogle = async () => {
           <input
             type="email"
             placeholder="Email"
-            className="w-full text-white py-2 mb-4 bg-transparent border-b border-gray-500 focus:outline-none focus:border-white"
+            className="w-full text-black py-2 mb-4 bg-transparent border-b border-white focus:outline-none focus:border-black"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="w-full text-white py-2 mb-4 bg-transparent border-b border-gray-500 focus:outline-none focus:border-white"
+            className="w-full text-black py-2 mb-4 bg-transparent border-b border-white focus:outline-none focus:border-black"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -80,8 +81,7 @@ const sigInWithGoogle = async () => {
         {error && <div className="text-red-500 mb-4">{error}</div>}
 
         <div className='w-full flex items-center justify-center relative py-4'>
-            <div className='w-full h-[1px] bg-gray-500'></div>
-            <p className='text-lg absolute text-gray-500 bg-[#1a1a1a] px-2'>OR</p>
+            <p className='text-lg absolute text-white bg-transparent px-2 mb-5'>OR</p>
         </div>
           < button
             className="w-full bg-white text-black font-semibold rounded-md p-4 text-center flex items-center"
@@ -93,7 +93,7 @@ const sigInWithGoogle = async () => {
         </div>
         <div className="flex justify-center mt-10">
           <button onClick={() => navigate('/signup')} className="text-white">
-            Don't have an account? <span className='text-blue-500'>Sign Up here</span>
+            Don't have an account? <span className='text-blue-950'>Sign Up here</span>
           </button>
         </div>
       </div>

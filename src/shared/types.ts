@@ -5,6 +5,7 @@ export enum SelectedPage {
     ContactUs = "contactus",
     SignUp = "signup",
     LogIn = "login",
+    Weight = "weight",
 }
 
 export interface BenefitType{

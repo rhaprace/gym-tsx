@@ -78,5 +78,4 @@ const Home = ({setSelectedPage}: Props) => {
     </section>
   )
 }
-
 export default Home

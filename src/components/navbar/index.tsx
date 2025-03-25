@@ -26,7 +26,8 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
             <h1 className="font-montserrat text-4xl pt- font-bold">ATLETECH</h1>
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
-                <div className={`${flexBetween} gap-8 text-xl`}>
+                <div className={`${flexBetween} gap-8
+                text-xl`}>
                   <Link
                     page="Home"
                     selectedPage={selectedPage}
