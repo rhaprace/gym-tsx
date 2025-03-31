@@ -32,7 +32,7 @@ const AuthRoute: React.FC<IAuthRouteProps> = ({ children }) => {
         setUser(authUser);
       } else {
         console.log('unauthorized');
-        navigate('/login');
+        navigate('/landingpage');
       }
       setLoading(false);
     });

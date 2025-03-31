@@ -1,117 +1,104 @@
 import { useState } from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import Link from "./Link";
-import { SelectedPage } from "../../shared/types";
-import useMediaQueries from "../../hooks/useMediaQueries";
-import ActionButton from "../../shared/ActionButton";
+import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/react/24/solid";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+import { LogOut, Settings, User } from "lucide-react";
 
-type Props = {
-  isTopOfPage: boolean;
-  selectedPage: SelectedPage;
-  setSelectedPage: (value: SelectedPage) => void;
-};
-
-const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
-  const flexBetween = "flex items-center justify-between";
-  const isAboveMediumScreens = useMediaQueries("(min-width: 1060px)");
-  const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
-  const navbarBg = isTopOfPage ? "" : "bg-secondary-400 drop-shadow";
+const Navbar = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await signOut(auth);
+      console.log("User logged out");
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Logout Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <nav>
-      <div className={`${navbarBg} ${flexBetween} fixed top-0 z-30 w-full py-6`}>
-        <div className={`${flexBetween} mx-auto w-5/6`}>
-          <div className={`${flexBetween} w-full gap-16`}>
-            <h1 className="font-montserrat text-4xl pt- font-bold">ATLETECH</h1>
-            {isAboveMediumScreens ? (
-              <div className={`${flexBetween} w-full`}>
-                <div className={`${flexBetween} gap-8
-                text-xl`}>
-                  <Link
-                    page="Home"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="Benefits"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="Our Classes"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                  <Link
-                    page="Contact Us"
-                    selectedPage={selectedPage}
-                    setSelectedPage={setSelectedPage}
-                  />
-                </div>
-                <div className={`${flexBetween} gap-8`}>
-                  <button
-                    className="rounded-md bg-secondary-400 px-10 py-2 hover:bg-secondary-500 hover:text-white text-md font-semibold"
-                    onClick={() => navigate('/signup')}
-                  >
-                    Sign Up
-                  </button>
-                  <ActionButton setSelectedPage={setSelectedPage}>
-                    Become a Member
-                  </ActionButton>
-                </div>
-              </div>
-            ) : (
-              <button
-                className="rounded-full bg-secondary-400 p-2"
-                onClick={() => setIsMenuToggled(!isMenuToggled)}
+    <motion.nav 
+      initial={{ opacity: 0, y: -20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 w-full z-50 bg-gradient-to-r from-blue-700 to-indigo-800 shadow-lg"
+    >
+      <div className="flex items-center justify-between w-5/6 mx-auto py-4">
+        <div className="relative">
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="flex items-center gap-2 p-2 bg-white text-blue-800 rounded-full shadow-md hover:bg-gray-100 transition"
+          >
+            <UserIcon className="w-10 h-10 text-blue-800" />
+          </button>
+
+          <AnimatePresence>
+            {dropdownOpen && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="absolute left-1/2 transform -translate-x-1/2 mt-2 min-w-[12rem] bg-white shadow-lg rounded-lg overflow-hidden z-50"
               >
-                <Bars3Icon className="h-6 w-6 text-white" />
-              </button>
+                <button className="flex items-center gap-2 w-full px-4 py-3 hover:bg-gray-100"
+                onClick={() => navigate('/profile')}
+                >
+                  <User className="w-5 h-5" /> Edit Profile
+                </button>
+                <button className="flex items-center gap-2 w-full px-4 py-3 hover:bg-gray-100">
+                  <Settings className="w-5 h-5" /> Settings
+                </button>
+                <button
+                  className="flex items-center gap-2 w-full px-4 py-3 text-red-600 hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  {loading ? "Logging out..." : <><LogOut className="w-5 h-5" /> Logout</>}
+                </button>
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
+        <div className="hidden md:flex space-x-10 text-white text-lg font-semibold">
+          <button onClick={() => navigate('/meal')} className="hover:underline">Meal</button>
+          <button onClick={() => navigate('/workout')} className="hover:underline">Workout</button>
+          <button onClick={() => navigate('/progress')} className="hover:underline">Progress</button>
+        </div>
+        <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
+          <Bars3Icon className="h-8 w-8" />
+        </button>
       </div>
-
-      {!isAboveMediumScreens && isMenuToggled && (
-        <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-secondary-400 drop-shadow-xl">
-          <div className="flex justify-end p-12">
-            <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
-              <XMarkIcon className="h-6 w-6 text-gray-50" />
-            </button>
-          </div>
-
-          <div className=" flex flex-col gap-10 text-2xl text-gray-20 items-center">
-            <Link
-              page="Home"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <Link
-              page="Benefits"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <Link
-              page="Our Classes"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <Link
-              page="Contact Us"
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-            />
-            <ActionButton setSelectedPage={setSelectedPage}>
-              Sign Up
-            </ActionButton>
-            <button onClick={() => navigate('/login')} className="rounded-md bg-secondary-400 px-10 py-2 hover:bg-secondary-500 hover:text-white">
-              Log In
-            </button>
-          </div>
-        </div>
-      )}
-    </nav>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ x: 300 }}
+            animate={{ x: 0 }}
+            exit={{ x: 300 }}
+            transition={{ duration: 0.3 }}
+            className="fixed right-0 top-0 h-full w-64 bg-white shadow-lg z-40"
+          >
+            <div className="flex justify-end p-4">
+              <button onClick={() => setMenuOpen(false)}>
+                <XMarkIcon className="h-6 w-6 text-gray-800" />
+              </button>
+            </div>
+            <div className="flex flex-col items-center space-y-6 text-gray-800 text-lg font-medium">
+              <button onClick={() => navigate('/meal')} className="hover:text-blue-600">Meal</button>
+              <button onClick={() => navigate('/workout')} className="hover:text-blue-600">Workout</button>
+              <button onClick={() => navigate('/progress')} className="hover:text-blue-600">Progress</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 };
 
