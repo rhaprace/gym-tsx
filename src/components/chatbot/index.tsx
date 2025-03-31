@@ -103,8 +103,6 @@ export default function ChatbotPage() {
         <ArrowLeft className="w-6 h-6 cursor-pointer" onClick={() => navigate("/", { replace: true })} />
         <span className="flex-1 text-center text-2xl font-semibold">Chatbot Assistant</span>
       </motion.header>
-
-      {/* Chat Messages */}
       <motion.div 
         className="flex-1 overflow-y-auto p-4 space-y-4"
         initial={{ opacity: 0 }}
