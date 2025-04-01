@@ -94,7 +94,6 @@ export default function ChatbotPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-[#000059] to-[#D9D9D9] text-white">
-      {/* Header */}
       <motion.header 
         className="bg-blue-800 p-4 flex items-center shadow-md"
         initial={{ opacity: 0, y: -20 }}
@@ -104,8 +103,6 @@ export default function ChatbotPage() {
         <ArrowLeft className="w-6 h-6 cursor-pointer" onClick={() => navigate("/", { replace: true })} />
         <span className="flex-1 text-center text-2xl font-semibold">Chatbot Assistant</span>
       </motion.header>
-
-      {/* Chat Messages */}
       <motion.div 
         className="flex-1 overflow-y-auto p-4 space-y-4"
         initial={{ opacity: 0 }}
@@ -134,8 +131,6 @@ export default function ChatbotPage() {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Input & Send Button */}
       <motion.div 
         className="p-4 flex items-center border-t border-gray-700 bg-gray-900"
         initial={{ opacity: 0, y: 20 }}
@@ -157,8 +152,6 @@ export default function ChatbotPage() {
           {loading ? "..." : "Send"}
         </button>
       </motion.div>
-
-      {/* Guest Limit Notice */}
       {isGuest && userMessageCount >= GUEST_MESSAGE_LIMIT && (
         <motion.div 
           className="text-center text-red-500 mt-4 p-4 bg-gray-900"
