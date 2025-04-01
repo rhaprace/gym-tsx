@@ -92,7 +92,7 @@ const Workout = () => {
           type="text"
         />
         <button
-          className="absolute right-0 top-0 h-16 w-32 bg-[#FFD700] px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-yellow-500 transition-all text-white rounded-r-full  text-lg"
+          className="absolute right-0 top-0 h-16 w-32 bg-blue-400 px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-blue-500 transition-all text-white rounded-r-full  text-lg"
           onClick={handleSearch}
         >
           Search

@@ -86,12 +86,12 @@ const Register = () => {
         <h3 className="text-4xl font-bold mb-2 text-white text-center">Create Account</h3>
         <p className="text-lg mb-6 text-gray-200 text-center">Start Your Fitness Journey!</p>
         <div className="mb-6">
-          <input type="text" placeholder="Name" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all" value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="email" placeholder="Email" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Password" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <input type="number" placeholder="Age" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all" value={age} onChange={(e) => setAge(e.target.value)} />
-          <input type="number" placeholder="Weight (kg)" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all" value={weight} onChange={(e) => setWeight(e.target.value)} />
-          <input type="number" placeholder="Height (cm)" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all" value={height} onChange={(e) => setHeight(e.target.value)} />
+          <input type="text" placeholder="Name" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="email" placeholder="Email" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Password" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="number" placeholder="Age" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all" value={age} onChange={(e) => setAge(e.target.value)} />
+          <input type="number" placeholder="Weight (kg)" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all" value={weight} onChange={(e) => setWeight(e.target.value)} />
+          <input type="number" placeholder="Height (cm)" className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all" value={height} onChange={(e) => setHeight(e.target.value)} />
 
           <div className="mb-4 text-white">
             <label className="mr-4">Gender:</label>
@@ -106,7 +106,7 @@ const Register = () => {
           <div className="mb-4 text-white">
             <label className="mr-4">Fitness Goal:</label>
             <select 
-              className="w-full bg-transparent border border-gray-400 text-white rounded-md px-3 py-2 focus:outline-none focus:border-yellow-400 transition-all"
+              className="w-full bg-transparent border border-gray-400 text-black rounded-md px-3 py-2 focus:outline-none focus:border-blue-400 transition-all"
               value={goal} onChange={(e) => setGoal(e.target.value)}
             >
               <option value="" disabled>Select your goal</option>
@@ -117,7 +117,7 @@ const Register = () => {
           </div>
 
           <motion.button 
-            className="w-full bg-yellow-500 text-black font-semibold rounded-md p-3 hover:bg-yellow-400 transition-all"
+            className="w-full bg-blue-400 text-white font-semibold rounded-md p-3 hover:bg-blue-500 transition-all"
             onClick={registerUser}
             disabled={authing}
             whileHover={{ scale: 1.05 }}
@@ -130,7 +130,7 @@ const Register = () => {
 
         <div className="flex justify-center mt-6 items-center">
           <button onClick={() => navigate('/login')} className="text-white text-sm">
-            Already Registered? <span className="text-yellow-400">Log in here</span>
+            Already Registered? <span className="text-blue-400">Log in here</span>
           </button>
         </div>
       </motion.div>

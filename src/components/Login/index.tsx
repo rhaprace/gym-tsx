@@ -60,19 +60,19 @@ export default function LogIn() {
           <input
             type="email"
             placeholder="Email"
-            className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all"
+            className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-yellow-400 transition-all"
+            className="w-full text-white py-3 px-4 mb-4 bg-transparent border border-gray-400 rounded-md focus:outline-none focus:border-blue-400 transition-all"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <motion.button 
-            className="w-full bg-yellow-500 text-black font-semibold rounded-md p-3 hover:bg-yellow-400 transition-all"
+            className="w-full bg-blue-400 text-white font-semibold rounded-md p-3 hover:bg-blue-500 transition-all"
             onClick={signInWithEmail}
             disabled={authing}
             whileHover={{ scale: 1.05 }}
@@ -84,7 +84,7 @@ export default function LogIn() {
         </div>
         <div className="flex justify-center mt-6 items-center flex-col">
           <button onClick={() => navigate('/register')} className="text-white text-sm">
-            Don't have an account? <span className="text-yellow-400">Register now</span>
+            Don't have an account? <span className="text-blue-400">Register now</span>
           </button>
         </div>
 

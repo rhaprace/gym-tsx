@@ -44,14 +44,14 @@ const LandingPage: React.FC = () => {
                 transition={{ duration: 1.2 }}
             >
                 <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight">
-                    UNLOCK YOUR <span className="text-[#FFD700]">BODY GOALS</span>
+                    UNLOCK YOUR <span className="text-blue-400">BODY GOALS</span>
                 </h1>
                 <p className="mt-4 text-lg sm:text-xl font-medium">
                     AthleTech is your AI-powered fitness & diet companion. Get customized plans, track progress, and stay on top of your health with our smart assistant.
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
                     <motion.button
-                        className="bg-[#FFD700] text-black px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-yellow-500 transition-all"
+                        className="bg-blue-400 text-black px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-blue-500 transition-all"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => navigate('/login')}

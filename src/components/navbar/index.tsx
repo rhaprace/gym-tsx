@@ -3,7 +3,7 @@ import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/react/24/solid";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -53,9 +53,6 @@ const Navbar = () => {
                 onClick={() => navigate('/profile')}
                 >
                   <User className="w-5 h-5" /> Edit Profile
-                </button>
-                <button className="flex items-center gap-2 w-full px-4 py-3 hover:bg-gray-100">
-                  <Settings className="w-5 h-5" /> Settings
                 </button>
                 <button
                   className="flex items-center gap-2 w-full px-4 py-3 text-red-600 hover:bg-gray-100"

@@ -1,17 +1,22 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { auth, db } from "@/components/db/firebaseapp";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { ArrowLongLeftIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
 
 const Meal = () => {
   const [exercises, setExercises] = useState<{ id: number; name: string }[]>([]);
   const [exerciseInput, setExerciseInput] = useState("");
-  const [editingExerciseId, setEditingExerciseId] = useState<number | null>(null);
-  const [editInput, setEditInput] = useState("");
+  const [mealInput, setMealInput] = useState({
+    name: "",
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fats: 0,
+  });
   const [userData, setUserData] = useState<any>(null);
-
+  const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState<number>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +28,7 @@ const Meal = () => {
           const data = userDoc.data();
           setUserData(data);
           setExercises(data.exercises || []);
+          setTotalCaloriesConsumed(data.totalCaloriesConsumed || 0);
         }
       }
     };
@@ -42,56 +48,83 @@ const Meal = () => {
       alert("Exercise name cannot be empty.");
       return;
     }
-    const updatedExercises = [...exercises, { id: Date.now(), name: exerciseInput }];
+
+    const newExercise = { id: Date.now(), name: exerciseInput };
+    const updatedExercises = [...exercises, newExercise];
     setExercises(updatedExercises);
+
     await updateExercisesInFirestore(updatedExercises);
     setExerciseInput("");
-    alert("Exercise successfully added!");
+    alert("Exercise added!");
   };
 
   const removeExercise = async (id: number) => {
     const updatedExercises = exercises.filter((exercise) => exercise.id !== id);
     setExercises(updatedExercises);
+
     await updateExercisesInFirestore(updatedExercises);
   };
 
-  const startEditing = (id: number, name: string) => {
-    setEditingExerciseId(id);
-    setEditInput(name);
-  };
+  const addMeal = async () => {
+    const { name, calories } = mealInput;
 
-  const saveEdit = async (id: number) => {
-    if (!editInput.trim()) {
-      alert("Exercise name cannot be empty.");
+    if (!name.trim() || calories <= 0) {
+      alert("Meal name cannot be empty and calories must be greater than 0.");
       return;
     }
-    const updatedExercises = exercises.map((exercise) =>
-      exercise.id === id ? { ...exercise, name: editInput } : exercise
-    );
-    setExercises(updatedExercises);
-    await updateExercisesInFirestore(updatedExercises);
-    setEditingExerciseId(null);
+
+    // Update the total calories consumed in Firestore
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+
+      // Get the existing user data and update calories
+      const userDoc = await getDoc(userDocRef);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const newTotalCalories = (userData.totalCaloriesConsumed || 0) + calories;
+
+        // Update the total calories consumed in Firestore
+        await updateDoc(userDocRef, { totalCaloriesConsumed: newTotalCalories });
+        setTotalCaloriesConsumed(newTotalCalories);
+      }
+    }
+
+    // Reset meal input fields
+    setMealInput({ name: "", calories: 0, protein: 0, carbs: 0, fats: 0 });
+    alert("Meal added!");
   };
 
   const generateMealPlan = () => {
-  if (!userData) return "Loading meal plan...";
-  const { weight, height, age, goal } = userData;
-  const bmi = weight / ((height / 100) * (height / 100));
+    if (!userData) return "Loading meal plan...";
 
-  if (goal === "Weight Loss") {
-    return bmi > 25
-      ? "Based on your data, a low-carb diet with high-protein meals is recommended. Suggested meal prep: Grilled chicken with steamed broccoli and quinoa."
-      : "Based on your data, a balanced diet with portion control is recommended. Suggested meal prep: Baked salmon with roasted vegetables and brown rice.";
-  } else if (goal === "Gain Weight") {
-    return "Based on your data, high-calorie meals with protein shakes and healthy fats are recommended. Suggested meal prep: Beef stir-fry with whole grain pasta and avocado.";
-  } else {
-    return "Based on your data, balanced meals with lean proteins, complex carbs, and veggies are recommended. Suggested meal prep: Turkey and quinoa bowl with mixed greens and a yogurt dressing.";
-  }
-};
+    const { weight, height, age, goal } = userData;
+    const bmi = weight / ((height / 100) * (height / 100));
 
+    if (goal === "Weight Loss") {
+      return bmi > 25
+        ? "Based on your data, a low-carb diet with high-protein meals is recommended. Suggested meal prep: Grilled chicken with steamed broccoli and quinoa."
+        : "Based on your data, a balanced diet with portion control is recommended. Suggested meal prep: Baked salmon with roasted vegetables and brown rice.";
+    } else if (goal === "Gain Weight") {
+      return "Based on your data, high-calorie meals with protein shakes and healthy fats are recommended. Suggested meal prep: Beef stir-fry with whole grain pasta and avocado.";
+    } else {
+      return "Based on your data, balanced meals with lean proteins, complex carbs, and veggies are recommended. Suggested meal prep: Turkey and quinoa bowl with mixed greens and a yogurt dressing.";
+    }
+  };
 
   const navigateToWorkout = () => {
     navigate("/workout");
+  };
+
+  const deleteTotalCalories = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      // Reset total calories consumed in Firestore
+      await updateDoc(userDocRef, { totalCaloriesConsumed: 0 });
+      setTotalCaloriesConsumed(0);
+      alert("Total calories consumed has been reset.");
+    }
   };
 
   return (
@@ -118,6 +151,7 @@ const Meal = () => {
               <h3 className="text-xl font-semibold text-white drop-shadow-lg mb-4">Recommended Meal Plan</h3>
               <p className="text-white/80">{generateMealPlan()}</p>
             </motion.div>
+
             <motion.div className="p-6 bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20">
               <h3 className="text-xl font-semibold text-white drop-shadow-lg mb-4">Add a New Exercise</h3>
               <input
@@ -135,13 +169,69 @@ const Meal = () => {
               </button>
             </motion.div>
           </div>
+
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-white drop-shadow-lg mb-4">Add a New Meal</h3>
+            <input
+              type="text"
+              value={mealInput.name}
+              onChange={(e) => setMealInput({ ...mealInput, name: e.target.value })}
+              className="w-full p-3 border border-white/30 bg-white/5 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all mb-4"
+              placeholder="Meal name"
+            />
+            <input
+              type="number"
+              value={mealInput.calories}
+              onChange={(e) => setMealInput({ ...mealInput, calories: parseFloat(e.target.value) })}
+              className="w-full p-3 border border-white/30 bg-white/5 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all mb-4"
+              placeholder="Calories"
+            />
+            <input
+              type="number"
+              value={mealInput.protein}
+              onChange={(e) => setMealInput({ ...mealInput, protein: parseFloat(e.target.value) })}
+              className="w-full p-3 border border-white/30 bg-white/5 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all mb-4"
+              placeholder="Protein (g)"
+            />
+            <input
+              type="number"
+              value={mealInput.carbs}
+              onChange={(e) => setMealInput({ ...mealInput, carbs: parseFloat(e.target.value) })}
+              className="w-full p-3 border border-white/30 bg-white/5 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all mb-4"
+              placeholder="Carbs (g)"
+            />
+            <input
+              type="number"
+              value={mealInput.fats}
+              onChange={(e) => setMealInput({ ...mealInput, fats: parseFloat(e.target.value) })}
+              className="w-full p-3 border border-white/30 bg-white/5 rounded-lg text-white placeholder-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all mb-4"
+              placeholder="Fats (g)"
+            />
+            <button
+              onClick={addMeal}
+              className="w-full mt-4 bg-green-500/80 text-white py-3 rounded-lg font-semibold hover:bg-green-600 hover:scale-105 transition-all duration-300"
+            >
+              Add Meal
+            </button>
+          </div>
+
+          <div className="mt-8 text-white text-center">
+            <h3 className="text-xl font-semibold drop-shadow-lg mb-4">Total Calories Consumed: {totalCaloriesConsumed} kcal</h3>
+            <button
+              onClick={deleteTotalCalories}
+              className="w-full mt-4 bg-red-500/80 text-white py-3 rounded-lg font-semibold hover:bg-red-600 hover:scale-105 transition-all duration-300"
+            >
+              Reset Total Calories
+            </button>
+          </div>
+
+          <button
+            onClick={navigateToWorkout}
+            className="mt-6 bg-green-500/80 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 hover:scale-105 transition-all duration-300 shadow-xl"
+          >
+            Recommended Workout
+          </button>
         </motion.div>
-        <button
-          onClick={navigateToWorkout}
-          className="mt-6 bg-green-500/80 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 hover:scale-105 transition-all duration-300 shadow-xl"
-        >
-          Recommended Workout
-        </button>
       </section>
     </>
   );
